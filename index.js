@@ -4,7 +4,7 @@ const express = require('express');
 const app = express();
 
 app.get('/', (req, res) => {
-    res.send({ hi: 'there' })
+    res.send({ hi: 'hello earthling' })
 });
 
 // whenever Heroku runs our app it has ability to inject env variables that are in the JS runtime
