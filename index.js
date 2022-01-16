@@ -1,7 +1,10 @@
 const express = require('express');
 const mongoose = require('mongoose');
+// order matters -- user needs to be loaded before passport auth
+require('./models/User');
 require('./services/passport');
 const keys = require("./config/keys");
+
 
 // set up mongoDB
 mongoose.connect(keys.mongoURI);
