@@ -12,5 +12,17 @@ module.exports = (app) => {
 
 // need to add a callback API call
 // tell passport to use its Google strategy to handle the incoming request
-    app.get('/auth/google/callback', passport.authenticate('google'))
+    app.get('/auth/google/callback', passport.authenticate('google'));
+
+    app.get('/api/logout', (req, res) => {
+        // takes cookie that has our user.id and kills the id in there
+        req.logout();
+        res.send(req.user);
+    });
+
+    app.get('/api/current_user', (req, res) => {
+        // tests to make sure someone who has already gone through OAuth flow is authenticated as a user
+       res.send(req.user);
+    });
+
 };

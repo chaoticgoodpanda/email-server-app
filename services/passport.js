@@ -17,7 +17,11 @@ passport.serializeUser((user, done) => {
 
 // deserialize the user.id that was serialized into the cookie
 passport.deserializeUser((id, done) => {
-
+    User.findById(id)
+        .then(user => {
+            // null is b/c done always takes on an error object
+            done(null, user);
+        })
 });
 
 passport.use(new GoogleStrategy({
