@@ -1,6 +1,6 @@
-const passport = require("passport");
 const {Strategy: GoogleStrategy} = require("passport-google-oauth20");
-const {googleClientID, googleClientSecret} = require("../config/keys");
+const keys = require("../config/keys");
+const passport = require("passport");
 const mongoose = require("mongoose");
 
 // one argument means we are pulling something out of mongoose
@@ -25,8 +25,8 @@ passport.deserializeUser((id, done) => {
 });
 
 passport.use(new GoogleStrategy({
-        clientID: googleClientID,
-        clientSecret: googleClientSecret,
+        clientID: keys.googleClientID,
+        clientSecret: keys.googleClientSecret,
         callbackURL: '/auth/google/callback'
     }, (accessToken, refreshToken, profile, done) => {
     // code doesn't return user directly, but rather returns a promise so need async/await
