@@ -29,20 +29,17 @@ passport.use(new GoogleStrategy({
         clientSecret: keys.googleClientSecret,
         callbackURL: '/auth/google/callback',
         proxy: true
-    }, (accessToken, refreshToken, profile, done) => {
+    }, 
+    async (accessToken, refreshToken, profile, done) => {
     // code doesn't return user directly, but rather returns a promise so need async/await
-        User.findOne({ googleId: profile.id })
-            .then((existingUser) => {
-                if (existingUser) {
-                    // we already have a record of the given user
-                    // tell user we're finished, we've found the existingUser
-                    done(null, existingUser);
-                } else {
-                    // we don't have a user record, make new record
-                    new User({ googleId: profile.id })
-                        .save()
-                        .then(user => done(null, user))
-                }
-            });
+        const existingUser = await User.findOne({ googleId: profile.id })
+        if (existingUser) {
+            // we already have a record of the given user
+            // tell user we're finished, we've found the existingUser
+            return done(null, existingUser);
+        }
+        // we don't have a user record, make new record
+        const user = await new User({ googleId: profile.id }).save();
+        done(null, user);
     }
 ));
